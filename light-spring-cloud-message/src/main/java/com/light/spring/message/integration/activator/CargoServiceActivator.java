@@ -1,0 +1,19 @@
+package com.light.spring.message.integration.activator;
+
+import com.light.spring.message.model.CargoMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.integration.annotation.MessageEndpoint;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.messaging.handler.annotation.Header;
+
+@MessageEndpoint
+@Slf4j
+public class CargoServiceActivator {
+
+  @ServiceActivator
+  public void getCargo(CargoMessage cargoMessage, @Header("CARGO_BATCH_ID") long batchId) {
+    log.info("Message in Batch[" + batchId + "] is received with payload : " + cargoMessage);
+    log.info("完成处理");
+  }
+
+}
