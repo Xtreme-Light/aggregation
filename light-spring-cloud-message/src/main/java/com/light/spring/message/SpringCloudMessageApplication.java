@@ -9,12 +9,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 
@@ -51,17 +49,15 @@ public class SpringCloudMessageApplication {
 
     MessageChannel bean = run.getBean("amqpMessage-in-0", MessageChannel.class);
     log.info("bean" + bean.getClass());
-    bean = run.getBean("AMQP_MESSAGE_INPUT", MessageChannel.class);
-    log.info("bean" + bean.getClass());
 
 
   }
 
 
-  @Bean
+/*  @Bean
   public Consumer<String> temp() {
     return v -> log.info("============{}", v);
-  }
+  }*/
 
   private static Map<Integer, List<Cargo>> getCargoBatchMap() {
     Map<Integer, List<Cargo>> cargoBatchMap = new HashMap<>();

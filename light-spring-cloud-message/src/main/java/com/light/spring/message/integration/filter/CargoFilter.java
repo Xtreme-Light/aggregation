@@ -7,7 +7,6 @@ import org.springframework.integration.annotation.MessageEndpoint;
 
 @MessageEndpoint
 public class CargoFilter {
-
   private static final long CARGO_WEIGHT_LIMIT = 1_000;
 
   /**

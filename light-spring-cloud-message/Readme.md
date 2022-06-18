@@ -7,8 +7,8 @@
 spring-cloud-stream基于EIP（Enterprise Integration Patterns），它是一个开源的消息发送系统，
 它提供了一个简单的消息发送系统，它可以将消息发送到任意的消息接收系统。
 
-## OutboundContentTypeConvertingInterceptor与SpringFunction的特别说明
 
+## OutboundContentTypeConvertingInterceptor与SpringFunction的特别说明
 与老版本的spring-cloud-stream不同，从3.0开始，spring-cloud-stream开始拥抱spring-function，使用基于Function，Consumer，Supplier的方式快速注册使用通道
 
 特别需要注意的地方是：
@@ -16,7 +16,6 @@ spring-cloud-stream基于EIP（Enterprise Integration Patterns），它是一个
 `org.springframework.cloud.stream.binding.MessageConverterConfigurer.configureMessageChannel
 `
 新版本中代码如下：
-
 ```java
 // 3.2.3 spring-cloud-stream
 		if (this.isNativeEncodingNotSet(producerProperties, consumerProperties, inbound)) {
@@ -34,9 +33,7 @@ spring-cloud-stream基于EIP（Enterprise Integration Patterns），它是一个
 			}
 		}
 ```
-
 老版本中代码如下：
-
 ```java
 // 2.0.1 spring-cloud-stream
         if (this.isNativeEncodingNotSet(producerProperties, consumerProperties, inbound)) {
@@ -47,7 +44,6 @@ spring-cloud-stream基于EIP（Enterprise Integration Patterns），它是一个
             }
         }
 ```
-
 也就说老版本中，消息产生端默认添加的Outbound消息拦截器OutboundContentTypeConvertingInterceptor不会被添加到新版本中的Outbound中
 
 新版本中添加的条件是，为这个channel添加`spring.cloud.stream.rabbit.bindings." + channelName +
@@ -104,6 +100,7 @@ spring-cloud-stream基于EIP（Enterprise Integration Patterns），它是一个
 在issue中同样我们看到在没有做修复之前，[garyrussell](https://github.com/garyrussell)
 建议使用`spring.cloud.stream.rabbit.bindings.requestChannel.producer.routing-key-expression=headers.eventType`
 用请求头的值来使用SpEL计算。
+
 
 ## Drop Failed Messages 删除失败的消息
 
@@ -176,9 +173,9 @@ amqp概览如下
 
 * Producer：消息生产者，即投递消息的程序。
 * Broker：消息队列服务器实体。
-    * Exchange：消息交换机，它指定消息按什么规则，路由到哪个队列。
-    * Binding：绑定，它的作用就是把 Exchange 和 Queue 按照路由规则绑定起来。
-    * Queue：消息队列载体，每个消息都会被投入到一个或多个队列。
+  * Exchange：消息交换机，它指定消息按什么规则，路由到哪个队列。
+  * Binding：绑定，它的作用就是把 Exchange 和 Queue 按照路由规则绑定起来。
+  * Queue：消息队列载体，每个消息都会被投入到一个或多个队列。
 * Consumer：消息消费者，即接受消息的程序。
 
 [知乎专栏AMQP介绍][知乎专栏AMQP介绍]

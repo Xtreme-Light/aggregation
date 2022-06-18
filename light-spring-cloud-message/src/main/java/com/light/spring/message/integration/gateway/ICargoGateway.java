@@ -9,7 +9,6 @@ import org.springframework.messaging.Message;
 
 @MessagingGateway(defaultRequestChannel = "cargoGWDefaultRequestChannel")
 public interface ICargoGateway {
-
   @Gateway
   void processCargoRequest(Message<List<Cargo>> message);
 
