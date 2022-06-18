@@ -16,7 +16,8 @@ spring:
       # 我们这里显式声明的原因是期望通过这样的配置，使得IntegrationFlow能直接读取到通道中来自MQ的消息，而不需要经过网关
       input-bindings: amqpMessage
       bindings:
-        amqpMessage-in-0:
+#        amqpMessage-in-0:
+        AMQP_MESSAGE_INPUT:
           destination: AMQP_DESTINATION
           group: AMQP_INPUT
         #        TEMP_INPUT:
@@ -29,7 +30,7 @@ spring:
           group: SPRING_MESSAGE
       function:
         bindings:
-          #          amqpMessage-in-0: AMQP_MESSAGE_INPUT
+          amqpMessage-in-0: AMQP_MESSAGE_INPUT
           #          temp-in-0: TEMP_INPUT
           amqpMessage-out-0: AMQP_MESSAGE_OUTPUT
       # 声明一个输出通道，该用输出通道提供给gateway使用，从而发送消息，减少对业务代码的侵入

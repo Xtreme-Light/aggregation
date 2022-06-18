@@ -77,7 +77,7 @@ public class IntegrationConfiguration {
       SimpleEchoServiceActivator simpleEchoServiceActivator
   ) {
     return IntegrationFlows
-        .from("amqpMessage-in-0")
+        .from("AMQP_MESSAGE_INPUT")
 //        .from("AMQP_MESSAGE_INPUT")
         .handle(simpleEchoServiceActivator)
         .log().get();

@@ -47,7 +47,7 @@ public class SpringCloudMessageApplication {
         new Cargo(3, "CCCCCCCCCCCCCCC", "Address1", 0.5, ShippingType.DOMESTIC, 1,
             1, ""));
 
-    MessageChannel bean = run.getBean("amqpMessage-in-0", MessageChannel.class);
+    MessageChannel bean = run.getBean("AMQP_MESSAGE_INPUT", MessageChannel.class);
     log.info("bean" + bean.getClass());
 
 
