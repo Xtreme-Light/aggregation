@@ -53,11 +53,10 @@ public class SpringCloudMessageApplication {
 
   }
 
-
-/*  @Bean
-  public Consumer<String> temp() {
-    return v -> log.info("============{}", v);
-  }*/
+//  @Bean
+//  public Consumer<String> temp() {
+//    return v -> log.info("============{}", v);
+//  }
 
   private static Map<Integer, List<Cargo>> getCargoBatchMap() {
     Map<Integer, List<Cargo>> cargoBatchMap = new HashMap<>();
