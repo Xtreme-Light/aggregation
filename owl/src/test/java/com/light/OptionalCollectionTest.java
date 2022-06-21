@@ -1,6 +1,7 @@
 package com.light;
 
 import com.light.owl.OptionalCollection;
+import com.light.owl.exceptions.EmptyCollectionException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +9,28 @@ import org.junit.Test;
 
 public class OptionalCollectionTest {
 
+  @Test(expected = NullPointerException.class)
+  public void testException() {
+    OptionalCollection.of(null);
+  }
+
+  @Test(expected = EmptyCollectionException.class)
+  public void testException3() {
+    OptionalCollection.ofNullable(null).orElseThrow();
+  }
+
+  @Test(expected = EmptyCollectionException.class)
+  public void testException4() {
+    OptionalCollection.ofNullable(new ArrayList<>()).notEmptyOrElseThrow();
+  }
+
+  @Test
+  public void testException2() {
+    final Cargo cargo1 = new Cargo("杯子", "美国", 100);
+    final List<? extends String> collect = OptionalCollection.of(List.of(cargo1))
+        .map(Cargo::getName).collect(Collectors.toList());
+    assert collect.size() == 1;
+  }
 
   @Test
   public void test() {
@@ -16,7 +39,7 @@ public class OptionalCollectionTest {
     final List<Cargo> arrayList = new ArrayList<>();
     arrayList.add(cargo1);
     arrayList.add(cargo2);
-    final OptionalCollection<List<Cargo>, Cargo> of = OptionalCollection.of(arrayList);
+    final OptionalCollection<List<Cargo>, Cargo> of = OptionalCollection.ofNullable(arrayList);
 
     assert !of.isEmpty();
     final List<String> collect = of.map(Cargo::getName).collect(Collectors.toList());

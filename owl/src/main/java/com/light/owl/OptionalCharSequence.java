@@ -1,11 +1,14 @@
 package com.light.owl;
 
+import com.light.owl.exceptions.BlankCharSequenceException;
+import com.light.owl.exceptions.EmptyCharSequenceException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public final class OptionalCharSequence {
@@ -244,5 +247,46 @@ public final class OptionalCharSequence {
    */
   public CharSequence notBlankOrElse(CharSequence other) {
     return blank ? other : value;
+  }
+
+
+  public CharSequence orElseThrow() {
+    if (value == null) {
+      throw new NoSuchElementException("No value present");
+    }
+    return value;
+  }
+
+  public CharSequence notEmptyOrElseThrow() {
+    if (empty) {
+      throw new EmptyCharSequenceException("空字符串");
+    }
+    return value;
+  }
+
+
+  public <X extends Throwable> CharSequence notEmptyOrElseThrow(
+      Supplier<? extends X> exceptionSupplier) throws X {
+    if (!empty) {
+      return value;
+    } else {
+      throw exceptionSupplier.get();
+    }
+  }
+
+  public CharSequence notBlankOrElseThrow() {
+    if (blank) {
+      throw new BlankCharSequenceException("空白字符串");
+    }
+    return value;
+  }
+
+  public <X extends Throwable> CharSequence notBlankOrElseThrow(
+      Supplier<? extends X> exceptionSupplier) throws X {
+    if (!blank) {
+      return value;
+    } else {
+      throw exceptionSupplier.get();
+    }
   }
 }

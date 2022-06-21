@@ -1,16 +1,18 @@
 package com.light.owl;
 
+import com.light.owl.exceptions.EmptyCollectionException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 
 /**
- * 本类用于对collection 的快速判断和lambda 用法，不要使用本类作为数据容器 因为容器的变化不会反馈给初始的empty参数
+ * 本类用于对collection 的快速判断和lambda 用法
  *
  * @param <T>
  * @param <E>
@@ -21,8 +23,6 @@ public final class OptionalCollection<T extends Collection<E>, E> {
 
   private final T value;
 
-  private final boolean empty;
-
 
   public static <T extends Collection<E>, E> OptionalCollection<T, E> empty() {
     @SuppressWarnings("unchecked")
@@ -32,7 +32,6 @@ public final class OptionalCollection<T extends Collection<E>, E> {
 
   private OptionalCollection(T value) {
     this.value = value;
-    this.empty = value == null || value.isEmpty();
   }
 
   public static <T extends Collection<E>, E> OptionalCollection<T, E> of(T value) {
@@ -45,7 +44,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
   }
 
   public void ifNotEmpty(Consumer<? super T> action) {
-    if (!empty) {
+    if (value != null && !value.isEmpty()) {
       action.accept(value);
     }
   }
@@ -56,7 +55,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
   public Stream<? extends E> filter(
       Predicate<? super E> predicate) {
     Objects.requireNonNull(predicate);
-    if (empty) {
+    if (value == null || value.isEmpty()) {
       return Stream.empty();
     } else {
       return
@@ -69,7 +68,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
    */
   public <U> Stream<? extends U> map(Function<? super E, ? extends U> mapper) {
     Objects.requireNonNull(mapper);
-    if (empty) {
+    if (value == null || value.isEmpty()) {
       return Stream.empty();
     } else {
       return value.stream().map(mapper);
@@ -77,7 +76,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
   }
 
   public T notEmptyOrElse(T other) {
-    if (!empty) {
+    if (value != null && !value.isEmpty()) {
       return value;
     } else {
       return other;
@@ -88,7 +87,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
    * 如果不为空 do action，else do emptyAction
    */
   public void ifNotEmptyOrElse(Consumer<? super T> action, Runnable emptyAction) {
-    if (!empty) {
+    if (value != null && !value.isEmpty()) {
       action.accept(value);
     } else {
       emptyAction.run();
@@ -96,7 +95,7 @@ public final class OptionalCollection<T extends Collection<E>, E> {
   }
 
   public boolean isEmpty() {
-    return empty;
+    return value == null || value.isEmpty();
   }
 
   public T get() {
@@ -110,10 +109,33 @@ public final class OptionalCollection<T extends Collection<E>, E> {
    * 转stream流
    */
   public Stream<E> stream() {
-    if (empty) {
+    if (value == null || value.isEmpty()) {
       return Stream.empty();
     } else {
       return value.stream();
+    }
+  }
+
+  public T orElseThrow() {
+    if (value == null) {
+      throw new EmptyCollectionException("空白集合");
+    }
+    return value;
+  }
+
+  public T notEmptyOrElseThrow() {
+    if (value == null || value.isEmpty()) {
+      throw new EmptyCollectionException("空白集合");
+    }
+    return value;
+  }
+
+  public <X extends Throwable> T notEmptyOrElseThrow(
+      Supplier<? extends X> exceptionSupplier) throws X {
+    if (value != null && !value.isEmpty()) {
+      return value;
+    } else {
+      throw exceptionSupplier.get();
     }
   }
 

@@ -1,6 +1,8 @@
 package com.light;
 
 import com.light.owl.OptionalCharSequence;
+import com.light.owl.exceptions.BlankCharSequenceException;
+import com.light.owl.exceptions.EmptyCharSequenceException;
 import org.junit.Test;
 
 public class OptionalCharSequenceTest {
@@ -70,5 +72,21 @@ public class OptionalCharSequenceTest {
     assert filter.isPresent();
     assert filter.isBlank();
 
+  }
+
+  @Test(expected = EmptyCharSequenceException.class)
+  public void testEmptyException() {
+    OptionalCharSequence.ofNullable("").notEmptyOrElseThrow();
+  }
+
+  @Test(expected = BlankCharSequenceException.class)
+  public void testBlankException() {
+    OptionalCharSequence.ofNullable("  ").notBlankOrElseThrow();
+  }
+
+  @Test(expected = EmptyCharSequenceException.class)
+  public void testSupplierException() {
+    OptionalCharSequence.ofNullable("  ")
+        .notBlankOrElseThrow(EmptyCharSequenceException::new);
   }
 }
