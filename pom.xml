@@ -19,6 +19,8 @@
   <modules>
     <module>light-spring-cloud-message</module>
     <module>owl</module>
+    <module>java-code-generate</module>
+    <module>java-code-generate-light</module>
   </modules>
 
 
