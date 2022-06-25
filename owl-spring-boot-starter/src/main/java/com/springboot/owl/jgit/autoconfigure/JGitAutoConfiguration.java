@@ -1,8 +1,8 @@
 package com.springboot.owl.jgit.autoconfigure;
 
-import com.springboot.owl.jgit.impl.JGit;
+import com.springboot.owl.jgit.JGit;
+import com.springboot.owl.jgit.OwlGit;
 import com.springboot.owl.jgit.property.GitProperties;
-import com.springboot.owl.jgit.service.OwlGit;
 import org.eclipse.jgit.api.Git;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
